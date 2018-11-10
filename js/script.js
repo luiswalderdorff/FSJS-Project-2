@@ -75,8 +75,8 @@ function createSearchbar () {
   const searchButton = document.querySelector(".search-button");
   const searchInput = document.querySelector(".search-input");
 
-  // search, if the button is clicked
-  searchButton.addEventListener("click", function () {
+  //Search function
+  function searchNames () {
     const searchText = searchInput.value.toLowerCase(); //toLowerCase, to make the search case insensitive
     // Look through all the studentItems and see if the search value is included in their names
     for ( let i = 0; i < studentItems.length; i++) {
@@ -113,40 +113,12 @@ function createSearchbar () {
     }
     document.querySelector(".pagination").parentNode.removeChild(document.querySelector(".pagination"));
     appendPageLinks(studentItemsNew);
-  })
+  }
+
+  // search, if the button is clicked
+  searchButton.addEventListener("click", searchNames)
   // search on key press, same as above
-    searchInput.addEventListener("keyup", function () {
-      const searchText = searchInput.value.toLowerCase();
-      for ( let i = 0; i < studentItems.length; i++) {
-        const studentNameText = document.querySelectorAll(".student-details h3")[i].innerHTML.toLowerCase();
-        const studentName = document.querySelectorAll(".student-details h3")[i];
-        if ( studentNameText.indexOf(searchText) != -1 ) {
-          studentName.parentNode.parentNode.classList.add("student-item")
-          if ( i < selectedPage * 10 && i >= (selectedPage - 1) * 10) {
-            studentItems[i].style.display = "block";
-          } else {
-            studentItems[i].style.display = "none";
-          }
-        } else {
-          studentItems[i].style.display = "none";
-          studentItems[i].classList.remove("student-item");
-        }
-      }
-      const studentItemsNew = document.querySelectorAll('.student-item');
-      if (studentItemsNew.length === 0 ) {
-        if (!document.querySelector(".no-results")) {
-        const noResults = document.createElement("h1");
-        noResults.classList.add("no-results");
-        noResults.innerHTML = `<h1>No Results</h1>`;
-        pageDiv.appendChild(noResults);
-        }
-      } else if (document.querySelector(".no-results")) {
-        const noResults = document.querySelector(".no-results");
-        noResults.parentNode.removeChild(noResults);
-      }
-      document.querySelector(".pagination").parentNode.removeChild(document.querySelector(".pagination"));
-      appendPageLinks(studentItemsNew);
-    })
+  searchInput.addEventListener("keyup", searchNames)
   }
 
 
